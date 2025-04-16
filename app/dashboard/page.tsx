@@ -207,32 +207,34 @@ export default function Dashboard() {
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
             <Brain className="h-5 w-5 text-primary-foreground" />
           </div>
-          <span className="text-lg font-semibold text-foreground">AI Platform</span>
+          <span className="text-lg font-semibold text-foreground">HARKA</span>
         </div>
 
         {/* Sidebar Navigation */}
         <nav className="flex-1 space-y-1 overflow-auto p-3">
-          <SidebarItem icon={<Home className="h-5 w-5" />} label="Dashboard" active />
-          <SidebarItem icon={<BookOpen className="h-5 w-5" />} label="My Courses" />
-          <SidebarItem icon={<BarChart3 className="h-5 w-5" />} label="Progress" />
-          <SidebarItem icon={<MessageSquare className="h-5 w-5" />} label="Discussion" />
-          <SidebarItem icon={<Bookmark className="h-5 w-5" />} label="Resources" />
-          <SidebarItem icon={<Award className="h-5 w-5" />} label="Certificates" />
+          <SidebarItem icon={<Home className="h-5 w-5" />} label="Dashboard" href="/dashboard" active />
+          <SidebarItem icon={<BookOpen className="h-5 w-5" />} label="My Courses" href="/courses" />
+          <SidebarItem icon={<BarChart3 className="h-5 w-5" />} label="Progress" href="/profile#progress" />
+          <SidebarItem icon={<MessageSquare className="h-5 w-5" />} label="Discussion" href="/discussion" />
+          <SidebarItem icon={<Bookmark className="h-5 w-5" />} label="Resources" href="/resources" />
+          <SidebarItem icon={<Award className="h-5 w-5" />} label="Certificates" href="/profile#certificates" />
           {/* Add Learning Path Section if needed */}
         </nav>
 
         {/* Sidebar Footer */}
         <div className="border-t border-border p-3">
-          <SidebarItem icon={<Settings className="h-5 w-5" />} label="Settings" />
-          <div className="mt-2 flex items-center gap-3 rounded-md p-3 hover:bg-muted/50 cursor-pointer">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted">
-              <User className="h-5 w-5 text-muted-foreground" />
+          <SidebarItem icon={<Settings className="h-5 w-5" />} label="Settings" href="/profile#settings" />
+          <Link href="/profile" className="block mt-2 rounded-md hover:bg-muted/50 cursor-pointer">
+            <div className="flex items-center gap-3 p-3">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted">
+                <User className="h-5 w-5 text-muted-foreground" />
+              </div>
+              <div>
+                <div className="text-sm font-medium text-foreground">Alex Johnson</div>
+                <div className="text-xs text-muted-foreground">View Profile</div>
+              </div>
             </div>
-            <div>
-              <div className="text-sm font-medium text-foreground">Alex Johnson</div>
-              <div className="text-xs text-muted-foreground">View Profile</div>
-            </div>
-          </div>
+          </Link>
         </div>
       </aside>
 
@@ -242,7 +244,7 @@ export default function Dashboard() {
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
             <Brain className="h-5 w-5 text-primary-foreground" />
           </div>
-          <span className="text-lg font-semibold text-foreground">AI Platform</span>
+          <span className="text-lg font-semibold text-foreground">HARKA</span>
         </div>
         <Button variant="ghost" size="icon" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
           {isSidebarOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -250,48 +252,51 @@ export default function Dashboard() {
       </div>
 
       {isSidebarOpen && (
-        <div className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm md:hidden" onClick={() => setIsSidebarOpen(false)}>
-          <aside
-            className="fixed inset-y-0 left-0 z-50 w-64 flex-col border-r border-border bg-card flex"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Mobile Sidebar Header */}
-            <div className="flex h-16 items-center justify-between border-b border-border px-4">
-              <div className="flex items-center gap-2">
-                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-                   <Brain className="h-5 w-5 text-primary-foreground" />
-                 </div>
-                 <span className="text-lg font-semibold text-foreground">AI Platform</span>
-               </div>
-              <Button variant="ghost" size="icon" onClick={() => setIsSidebarOpen(false)}>
-                <X className="h-5 w-5" />
-              </Button>
-            </div>
-            {/* Mobile Sidebar Navigation */}
-            <nav className="flex-1 space-y-1 overflow-auto p-3">
-              <SidebarItem icon={<Home className="h-5 w-5" />} label="Dashboard" active />
-              <SidebarItem icon={<BookOpen className="h-5 w-5" />} label="My Courses" />
-              <SidebarItem icon={<BarChart3 className="h-5 w-5" />} label="Progress" />
-              <SidebarItem icon={<MessageSquare className="h-5 w-5" />} label="Discussion" />
-              <SidebarItem icon={<Bookmark className="h-5 w-5" />} label="Resources" />
-              <SidebarItem icon={<Award className="h-5 w-5" />} label="Certificates" />
-            </nav>
-            {/* Mobile Sidebar Footer */}
-            <div className="border-t border-border p-3">
-              <SidebarItem icon={<Settings className="h-5 w-5" />} label="Settings" />
-               <div className="mt-2 flex items-center gap-3 rounded-md p-3 hover:bg-muted/50 cursor-pointer">
-                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted">
-                   <User className="h-5 w-5 text-muted-foreground" />
-                 </div>
-                 <div>
-                   <div className="text-sm font-medium text-foreground">Alex Johnson</div>
-                   <div className="text-xs text-muted-foreground">View Profile</div>
-                 </div>
-               </div>
-            </div>
-          </aside>
-        </div>
+        <div className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm md:hidden" onClick={() => setIsSidebarOpen(false)}></div>
       )}
+      <aside
+        className={cn(
+          "fixed inset-y-0 left-0 z-50 w-64 flex-col border-r border-border bg-card transition-transform duration-300 ease-in-out md:hidden",
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full",
+        )}
+      >
+        {/* Mobile Sidebar Header */}
+        <div className="flex h-16 items-center justify-between border-b border-border px-4">
+          <div className="flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
+              <Brain className="h-5 w-5 text-primary-foreground" />
+            </div>
+            <span className="text-lg font-semibold text-foreground">HARKA</span>
+          </div>
+          <Button variant="ghost" size="icon" onClick={() => setIsSidebarOpen(false)}>
+            <X className="h-6 w-6" />
+          </Button>
+        </div>
+        {/* Mobile Sidebar Navigation */}
+        <nav className="flex-1 space-y-1 overflow-auto p-3">
+          <SidebarItem icon={<Home className="h-5 w-5" />} label="Dashboard" href="/dashboard" active />
+          <SidebarItem icon={<BookOpen className="h-5 w-5" />} label="My Courses" href="/courses" />
+          <SidebarItem icon={<BarChart3 className="h-5 w-5" />} label="Progress" href="/profile#progress" />
+          <SidebarItem icon={<MessageSquare className="h-5 w-5" />} label="Discussion" href="/discussion" />
+          <SidebarItem icon={<Bookmark className="h-5 w-5" />} label="Resources" href="/resources" />
+          <SidebarItem icon={<Award className="h-5 w-5" />} label="Certificates" href="/profile#certificates" />
+        </nav>
+        {/* Mobile Sidebar Footer */}
+        <div className="border-t border-border p-3">
+          <SidebarItem icon={<Settings className="h-5 w-5" />} label="Settings" href="/profile#settings" />
+          <Link href="/profile" className="block mt-2 rounded-md hover:bg-muted/50 cursor-pointer">
+            <div className="flex items-center gap-3 p-3">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted">
+                <User className="h-5 w-5 text-muted-foreground" />
+              </div>
+              <div>
+                <div className="text-sm font-medium text-foreground">Alex Johnson</div>
+                <div className="text-xs text-muted-foreground">View Profile</div>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </aside>
 
       {/* --- Main Content Area --- */}
       <main className="flex-1 overflow-y-auto pt-16 md:pt-0 grid-bg">
