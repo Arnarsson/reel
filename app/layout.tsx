@@ -8,7 +8,7 @@ import { ForceTheme } from "@/components/force-theme"
 import { CustomCursor } from "@/components/custom-cursor"
 
 export const metadata = {
-  title: "Ethos.ai - AI der leverer reel forretningsværdi",
+  title: "HARKA - AI der leverer reel forretningsværdi",
   description: "Transformer jeres virksomhed på 2 dage – fra abstrakt potentiale til konkrete resultater.",
   generator: 'v0.dev'
 }

@@ -14,7 +14,7 @@ export function Header() {
         <div className="flex items-center h-16">
           <div className="flex-1 basis-0">
             <Link href="/" className="text-xl font-bold">
-              Ethos.ai
+              HARKA
             </Link>
           </div>
 

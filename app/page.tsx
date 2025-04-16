@@ -167,7 +167,7 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
-              className="flex flex-col sm:flex-row gap-4"
+              className="flex flex-col items-center sm:flex-row sm:justify-center gap-4"
             >
               <Button size="lg" className="bg-white text-black hover:bg-gray-100 relative z-20">
                 Book en 30-minutters afklaringssamtale <ArrowRight className="ml-2 h-4 w-4" />
@@ -369,7 +369,7 @@ export default function HomePage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              Hvem står bag Ethos.ai?
+              Hvem står bag HARKA?
             </motion.h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -468,10 +468,10 @@ export default function HomePage() {
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
             >
-              <p>Ethos.ai</p>
+              <p>HARKA</p>
               <p>Vi hjælper virksomheder med at effektivisere arbejdsgange, reducere spildtid og styrke beslutningskraften – på bare 2 dage.</p>
               <div className="flex flex-col items-center gap-2">
-                <p>📧 info@ethos.ai</p>
+                <p>📧 info@harka.ai</p>
                 <p>📞 +45 29 12 83 81</p>
                 <p>📍 Danneskiold-Samsøes Allé 41, 1434 København</p>
               </div>
