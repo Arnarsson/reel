@@ -1,0 +1,124 @@
+/* Custom cursor styles */
+:root {
+  --cursor-color: rgba(77, 171, 247, 0.5); /* Primary blue color with opacity */
+  --cursor-size: 24px;
+  --cursor-hover-size: 40px;
+  --cursor-transition: 150ms ease-out;
+}
+
+/* Default cursor style */
+body {
+  cursor: none;
+}
+
+/* Custom cursor container */
+.custom-cursor-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+/* Main cursor dot */
+.cursor-dot {
+  width: 16px;
+  height: 16px;
+  background-color: var(--cursor-color);
+  border-radius: 50%;
+  transition: width 0.2s ease-out, height 0.2s ease-out, background-color 0.2s ease-out;
+  z-index: 1;
+  mix-blend-mode: screen;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -8px;
+  margin-top: -8px;
+}
+
+/* Cursor ring (larger circle around dot) */
+.cursor-ring {
+  width: calc(var(--cursor-size) * 2);
+  height: calc(var(--cursor-size) * 2);
+  border: 1px solid var(--cursor-color);
+  border-radius: 50%;
+  transition: width 0.3s ease-out, height 0.3s ease-out, border-color 0.3s ease-out;
+  z-index: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: calc(-1 * var(--cursor-size));
+  margin-top: calc(-1 * var(--cursor-size));
+}
+
+/* Hover states for interactive elements */
+a,
+button,
+.hover-lift,
+[role="button"],
+input,
+select,
+textarea,
+.interactive {
+  cursor: none;
+}
+
+/* Hover effect for buttons and interactive elements */
+a:hover ~ .custom-cursor-container .cursor-dot,
+button:hover ~ .custom-cursor-container .cursor-dot,
+.hover-lift:hover ~ .custom-cursor-container .cursor-dot,
+[role="button"]:hover ~ .custom-cursor-container .cursor-dot,
+.interactive:hover ~ .custom-cursor-container .cursor-dot {
+  background-color: rgba(151, 117, 250, 0.8); /* Purple color */
+  width: 12px;
+  height: 12px;
+}
+
+a:hover ~ .custom-cursor-container .cursor-ring,
+button:hover ~ .custom-cursor-container .cursor-ring,
+.hover-lift:hover ~ .custom-cursor-container .cursor-ring,
+[role="button"]:hover ~ .custom-cursor-container .cursor-ring,
+.interactive:hover ~ .custom-cursor-container .cursor-ring {
+  width: calc(var(--cursor-hover-size) * 2);
+  height: calc(var(--cursor-hover-size) * 2);
+  border-color: rgba(151, 117, 250, 0.3); /* Purple color with opacity */
+  margin-left: calc(-1 * var(--cursor-hover-size));
+  margin-top: calc(-1 * var(--cursor-hover-size));
+}
+
+/* Text selection cursor */
+p:hover ~ .custom-cursor-container .cursor-dot,
+h1:hover ~ .custom-cursor-container .cursor-dot,
+h2:hover ~ .custom-cursor-container .cursor-dot,
+h3:hover ~ .custom-cursor-container .cursor-dot,
+span:hover ~ .custom-cursor-container .cursor-dot {
+  background-color: rgba(255, 135, 135, 0.8); /* Coral color */
+  width: 8px;
+  height: 8px;
+}
+
+p:hover ~ .custom-cursor-container .cursor-ring,
+h1:hover ~ .custom-cursor-container .cursor-ring,
+h2:hover ~ .custom-cursor-container .cursor-ring,
+h3:hover ~ .custom-cursor-container .cursor-ring,
+span:hover ~ .custom-cursor-container .cursor-ring {
+  width: calc(var(--cursor-size) * 1.5);
+  height: calc(var(--cursor-size) * 1.5);
+  border-color: rgba(255, 135, 135, 0.3); /* Coral color with opacity */
+  margin-left: calc(-1 * var(--cursor-size) * 0.75);
+  margin-top: calc(-1 * var(--cursor-size) * 0.75);
+}
+
+/* Media query to disable custom cursor on mobile/touch devices */
+@media (max-width: 768px) {
+  body {
+    cursor: auto;
+  }
+
+  .custom-cursor-container {
+    display: none;
+  }
+}

@@ -1,0 +1,75 @@
+/* Cursor click animation */
+@keyframes cursorClick {
+  0% {
+    transform: scale(1) translate(var(--x), var(--y));
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5) translate(var(--x), var(--y));
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1) translate(var(--x), var(--y));
+    opacity: 1;
+  }
+}
+
+.cursor-click {
+  animation: cursorClick 0.3s ease-out forwards;
+}
+
+/* Cursor hover animations for different element types */
+@keyframes cursorHoverButton {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Magnetic cursor effect for buttons */
+.magnetic-cursor {
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Special cursor states */
+.cursor-loading .cursor-ring {
+  animation: cursorLoading 1.5s infinite linear;
+}
+
+@keyframes cursorLoading {
+  0% {
+    transform: translate(var(--x), var(--y)) rotate(0deg);
+  }
+  100% {
+    transform: translate(var(--x), var(--y)) rotate(360deg);
+  }
+}
+
+/* Text selection cursor style */
+.cursor-text .cursor-dot {
+  width: 4px !important;
+  height: 16px !important;
+  border-radius: 1px !important;
+  opacity: 1;
+}
+
+.cursor-text .cursor-ring {
+  opacity: 0;
+}
+
+/* Drag cursor style */
+.cursor-drag .cursor-dot {
+  width: 10px !important;
+  height: 10px !important;
+}
+
+.cursor-drag .cursor-ring {
+  width: 50px !important;
+  height: 50px !important;
+  border-width: 2px;
+}
