@@ -1,36 +1,77 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState } from "react"
 
 export function CustomCursor() {
-  const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 })
+  const [position, setPosition] = useState({ x: 0, y: 0 })
+  const [isHidden, setIsHidden] = useState(true)
+  const [isHovering, setIsHovering] = useState(false)
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
+    let timeout: NodeJS.Timeout
+
+    const updateCursorPosition = (e: MouseEvent) => {
+      setPosition({ x: e.clientX, y: e.clientY })
+      setIsHidden(false)
+      
+      // Update custom property for hover effect
+      document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`)
+      document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`)
+      
+      // Clear existing timeout and set new one
+      clearTimeout(timeout)
+      timeout = setTimeout(() => setIsHidden(true), 3000)
     }
 
-    document.addEventListener("mousemove", handleMouseMove)
+    const handleMouseEnter = () => {
+      setIsHovering(true)
+      setIsHidden(false)
+    }
+
+    const handleMouseLeave = () => {
+      setIsHovering(false)
+      setIsHidden(true)
+    }
+
+    // Track hover state on interactive elements
+    const interactiveElements = document.querySelectorAll('.hover-lift')
+    interactiveElements.forEach(element => {
+      element.addEventListener('mouseenter', handleMouseEnter)
+      element.addEventListener('mouseleave', handleMouseLeave)
+    })
+
+    window.addEventListener('mousemove', updateCursorPosition)
+    document.body.style.cursor = 'none'
 
     return () => {
-      document.removeEventListener("mousemove", handleMouseMove)
+      window.removeEventListener('mousemove', updateCursorPosition)
+      clearTimeout(timeout)
+      document.body.style.cursor = 'auto'
+      
+      // Clean up hover listeners
+      interactiveElements.forEach(element => {
+        element.removeEventListener('mouseenter', handleMouseEnter)
+        element.removeEventListener('mouseleave', handleMouseLeave)
+      })
     }
   }, [])
 
-  if (mousePosition.x === -100 && mousePosition.y === -100) {
-    return null
-  }
-
   return (
-    <div
-      className="cursor-dot"
-      style={{
-        position: 'fixed',
-        left: mousePosition.x,
-        top: mousePosition.y,
-        pointerEvents: 'none',
-        zIndex: 9999,
-      }}
-    />
+    <>
+      <div
+        className={`cursor-dot ${isHidden ? 'cursor-hidden' : ''}`}
+        style={{
+          left: `${position.x}px`,
+          top: `${position.y}px`,
+        }}
+      />
+      <div
+        className={`cursor-dot-outline ${isHidden ? 'cursor-hidden' : ''}`}
+        style={{
+          left: `${position.x}px`,
+          top: `${position.y}px`,
+        }}
+      />
+    </>
   )
 }

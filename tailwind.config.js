@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const { fontFamily } = require("tailwindcss/defaultTheme")
+
 module.exports = {
   darkMode: ["class"],
   content: [
@@ -18,41 +20,43 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        satoshi: ["Satoshi", "sans-serif"],
+        satoshi: ["var(--font-satoshi)", ...fontFamily.sans],
       },
       colors: {
-        background: '#050505',
-        foreground: '#E0E0E0',
-        card: '#0C0C0C',
-        'card-foreground': '#E0E0E0',
-        popover: '#0C0C0C',
-        'popover-foreground': '#E0E0E0',
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+
         primary: {
-          DEFAULT: '#5E5CEE',
-          foreground: '#FFFFFF',
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
-          DEFAULT: '#4DABF7',
-          foreground: '#FFFFFF',
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
         },
-        accent: {
-          DEFAULT: '#FF8787',
-          foreground: '#FFFFFF',
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
         },
         muted: {
-          DEFAULT: '#1A1A1A',
-          foreground: '#888888',
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
         },
-        border: '#1A1A1A',
-        input: '#1A1A1A',
-        ring: '#5E5CEE',
-        destructive: {
-          DEFAULT: "hsl(0 84% 60%)",
-          foreground: "hsl(0 0% 100%)",
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
         },
-        success: "hsl(142 70% 56%)",
-        warning: "hsl(45 100% 62%)",
-        error: "hsl(0 84% 60%)",
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
         "black-pure": "#000000",
         "black-soft": "#0A0A0A",
         "black-lighter": "#111111",

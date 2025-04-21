@@ -1,4 +1,4 @@
-"use client"
+// "use client" // Removed directive
 
 import React from 'react'
 

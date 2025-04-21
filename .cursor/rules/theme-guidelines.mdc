@@ -1,0 +1,60 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Theme Implementation Guidelines
+
+## Theme System Overview
+The project uses `next-themes` for theme management, configured in [components/theme-provider.tsx](mdc:components/theme-provider.tsx). The theme system supports light, dark, and system themes.
+
+## CSS Variables
+Theme colors are defined in [app/globals.css](mdc:app/globals.css) using CSS variables under the `:root` and `.dark` selectors. Always use these variables instead of hardcoded colors.
+
+## Do's and Don'ts
+
+### ✅ Do:
+- Use semantic color variables:
+  - `text-foreground` for main text
+  - `text-muted-foreground` for secondary text
+  - `bg-background` for backgrounds
+  - `border-border` for borders
+  - `hover:border-muted` for hover states
+  - `bg-card` for card backgrounds
+  - `bg-popover` for popover backgrounds
+
+### ❌ Don't:
+- Avoid hardcoding colors that override the theme system:
+  - Don't use `text-white`, `text-black`
+  - Don't use `bg-black`, `bg-white`
+  - Don't use `border-gray-{number}`
+  - Don't use `text-gray-{number}`
+
+### Component Examples
+```tsx
+// ✅ Good
+<div className="text-foreground bg-background">
+  <p className="text-muted-foreground">
+    Secondary text
+  </p>
+  <div className="border-border hover:border-muted">
+    Card content
+  </div>
+</div>
+
+// ❌ Bad
+<div className="text-white bg-black">
+  <p className="text-gray-400">
+    Secondary text
+  </p>
+  <div className="border-gray-800 hover:border-gray-700">
+    Card content
+  </div>
+</div>
+```
+
+## Theme Toggle Implementation
+The theme toggle component is implemented in [components/theme-toggle.tsx](mdc:components/theme-toggle.tsx) and should be used consistently across the application for theme switching.
+
+## Special Cases
+If you need a specific color that doesn't follow the theme (e.g., for branding or gradients), create a custom CSS variable in `globals.css` or use a dedicated utility class like `text-gradient`.

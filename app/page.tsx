@@ -1,123 +1,18 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
-import { motion, useInView, AnimatePresence } from "framer-motion"
-import { Brain, ArrowRight, Shield, Zap, BarChart, MessageSquare, Users } from "lucide-react"
+import { useState, useEffect } from "react"
+import { motion } from "framer-motion"
+import { ArrowRight } from "lucide-react"
 import { Header } from "@/components/header"
-import { FeatureCard } from "@/components/feature-card"
-import { FloatingOrbs } from "@/components/floating-orbs"
-import { LoadingScreen } from "@/components/loading-screen"
 import { Button } from "@/components/ui/button"
 import { HeroLines } from "@/components/hero-lines"
 import Link from "next/link"
+import Image from "next/image"
 
-// Animated Brain Component
-function AnimatedBrain() {
-  return (
-    <div className="relative w-full h-full flex items-center justify-center">
-      <div className="absolute w-64 h-64 rounded-full bg-primary/10 animate-pulse"></div>
-      <div
-        className="absolute w-48 h-48 rounded-full bg-purple/20 animate-pulse"
-        style={{ animationDelay: "0.5s" }}
-      ></div>
-      <div
-        className="absolute w-32 h-32 rounded-full bg-primary/30 animate-pulse"
-        style={{ animationDelay: "1s" }}
-      ></div>
-      <motion.div
-        className="relative z-10"
-        animate={{
-          scale: [1, 1.05, 1],
-          rotate: [0, 5, -5, 0],
-        }}
-        transition={{
-          duration: 8,
-          ease: "easeInOut",
-          repeat: Number.POSITIVE_INFINITY,
-        }}
-      >
-        <Brain className="h-32 w-32 text-blue-light" strokeWidth={1} />
-      </motion.div>
-    </div>
-  )
-}
-
-// Animated Counter Component
-function AnimatedCounter({ value, duration = 2000 }) {
-  const [count, setCount] = useState(0)
-  const countRef = useRef(null)
-  const inView = useInView(countRef, { once: true, margin: "-100px" })
-
-  useEffect(() => {
-    if (inView) {
-      const startTime = Date.now()
-      const updateCount = () => {
-        const now = Date.now()
-        const progress = Math.min((now - startTime) / duration, 1)
-        const currentCount = Math.floor(progress * value)
-        if (currentCount !== count) {
-          setCount(currentCount)
-        }
-        if (progress < 1) {
-          requestAnimationFrame(updateCount)
-        } else {
-          setCount(value)
-        }
-      }
-      requestAnimationFrame(updateCount)
-    }
-  }, [inView, value, duration, count])
-
-  return <span ref={countRef}>{count}</span>
-}
-
-// Testimonial Card Component
-function TestimonialCard({ author, role, company, content, rating, image, delay = 0 }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6, delay }}
-      className="micro-card p-8 relative overflow-hidden group"
-    >
-      <div className="relative z-10">
-        <div className="flex items-center gap-1 mb-6">
-          {Array(5)
-            .fill(0)
-            .map((_, i) => (
-              <svg
-                key={i}
-                className={`w-5 h-5 ${i < rating ? "text-primary" : "text-muted"}`}
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-              </svg>
-            ))}
-        </div>
-        <p className="text-gray-300 mb-6 italic">{content}</p>
-        <div className="flex items-center gap-4">
-          <div className="h-12 w-12 rounded-full overflow-hidden bg-black-lighter">
-            {image ? (
-              <img src={image || "/placeholder.svg"} alt={author} className="h-full w-full object-cover" />
-            ) : (
-              <div className="h-full w-full flex items-center justify-center bg-primary/10 text-primary font-bold">
-                {author.charAt(0)}
-              </div>
-            )}
-          </div>
-          <div>
-            <div className="font-medium">{author}</div>
-            <div className="text-sm text-muted-foreground">
-              {role}, {company}
-            </div>
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  )
-}
+// Import extracted components
+import { AnimatedBrain } from "@/components/animated-brain"
+import { AnimatedCounter } from "@/components/animated-counter"
+import { TestimonialCard } from "@/components/testimonial-card"
 
 // Main Page Component
 export default function HomePage() {
@@ -134,7 +29,7 @@ export default function HomePage() {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-black text-white">
+      <main className="min-h-screen">
         {/* Hero Section */}
         <section className="relative h-screen flex items-center justify-center overflow-hidden">
           <HeroLines />
@@ -146,7 +41,7 @@ export default function HomePage() {
           
           <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
             <motion.h1 
-              className="text-6xl md:text-7xl font-bold mb-6"
+              className="text-6xl md:text-7xl font-bold mb-6 text-foreground"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -155,7 +50,7 @@ export default function HomePage() {
             </motion.h1>
             
             <motion.p 
-              className="text-xl md:text-2xl text-gray-400 mb-8"
+              className="text-xl md:text-2xl text-muted-foreground mb-8"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -169,10 +64,10 @@ export default function HomePage() {
               transition={{ delay: 0.8 }}
               className="flex flex-col items-center sm:flex-row sm:justify-center gap-4"
             >
-              <Button size="lg" className="bg-white text-black hover:bg-gray-100 relative z-20">
+              <Button size="lg" className="relative z-20">
                 Book en 30-minutters afklaringssamtale <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
-              <Button size="lg" variant="outline" className="border-gray-700 hover:bg-gray-900" asChild>
+              <Button size="lg" variant="outline" asChild>
                 <Link href="/dashboard">
                   Se hvordan det virker
                 </Link>
@@ -182,7 +77,7 @@ export default function HomePage() {
         </section>
 
         {/* Stats Section */}
-        <section className="py-20 px-4 border-t border-gray-800">
+        <section className="py-20 px-4 border-t border-border">
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
               {[
@@ -193,7 +88,7 @@ export default function HomePage() {
               ].map((stat, index) => (
                 <motion.div
                   key={index}
-                  className="p-6 rounded-lg border border-gray-800 hover:border-gray-700 transition-colors"
+                  className="p-6 rounded-lg border border-border hover:border-muted transition-colors"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -211,10 +106,10 @@ export default function HomePage() {
         </section>
 
         {/* Why AI is Hard Section */}
-        <section className="py-20 px-4 bg-black-lighter">
+        <section className="py-20 px-4 bg-muted/50">
           <div className="max-w-6xl mx-auto">
             <motion.h2 
-              className="text-4xl md:text-5xl font-bold mb-12 text-center"
+              className="text-4xl md:text-5xl font-bold mb-12 text-center text-foreground"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -239,14 +134,14 @@ export default function HomePage() {
               ].map((item, index) => (
                 <motion.div
                   key={index}
-                  className="p-6 rounded-lg border border-gray-800 hover:border-gray-700 transition-colors"
+                  className="p-6 rounded-lg border border-border hover:border-muted transition-colors bg-card"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   viewport={{ once: true }}
                 >
-                  <h3 className="text-xl font-bold mb-4">{item.title}</h3>
-                  <p className="text-gray-400">{item.description}</p>
+                  <h3 className="text-xl font-bold mb-4 text-foreground">{item.title}</h3>
+                  <p className="text-muted-foreground">{item.description}</p>
                 </motion.div>
               ))}
             </div>
@@ -257,7 +152,7 @@ export default function HomePage() {
         <section className="py-20 px-4">
           <div className="max-w-6xl mx-auto">
             <motion.h2 
-              className="text-4xl md:text-5xl font-bold mb-12 text-center"
+              className="text-4xl md:text-5xl font-bold mb-12 text-center text-foreground"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -288,18 +183,18 @@ export default function HomePage() {
               ].map((day, index) => (
                 <motion.div
                   key={index}
-                  className="p-6 rounded-lg border border-gray-800 hover:border-gray-700 transition-colors"
+                  className="p-6 rounded-lg border border-border hover:border-muted transition-colors bg-card"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   viewport={{ once: true }}
                 >
-                  <h3 className="text-2xl font-bold mb-6">{day.title}</h3>
+                  <h3 className="text-2xl font-bold mb-6 text-foreground">{day.title}</h3>
                   <ul className="space-y-4">
                     {day.items.map((item, i) => (
                       <li key={i} className="flex items-start gap-3">
                         <ArrowRight className="h-5 w-5 text-primary mt-1" />
-                        <span>{item}</span>
+                        <span className="text-muted-foreground">{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -310,10 +205,10 @@ export default function HomePage() {
         </section>
 
         {/* Results Section */}
-        <section className="py-20 px-4 bg-black-lighter">
+        <section className="py-20 px-4 bg-muted/50">
           <div className="max-w-6xl mx-auto">
             <motion.h2 
-              className="text-4xl md:text-5xl font-bold mb-12 text-center"
+              className="text-4xl md:text-5xl font-bold mb-12 text-center text-foreground"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -346,14 +241,14 @@ export default function HomePage() {
               ].map((result, index) => (
                 <motion.div
                   key={index}
-                  className="p-6 rounded-lg border border-gray-800 hover:border-gray-700 transition-colors"
+                  className="p-6 rounded-lg border border-border hover:border-muted transition-colors bg-card"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   viewport={{ once: true }}
                 >
-                  <h3 className="text-xl font-bold mb-4">{result.title}</h3>
-                  <p className="text-gray-400">{result.description}</p>
+                  <h3 className="text-xl font-bold mb-4 text-foreground">{result.title}</h3>
+                  <p className="text-muted-foreground">{result.description}</p>
                 </motion.div>
               ))}
             </div>
@@ -364,7 +259,7 @@ export default function HomePage() {
         <section className="py-20 px-4">
           <div className="max-w-6xl mx-auto">
             <motion.h2 
-              className="text-4xl md:text-5xl font-bold mb-12 text-center"
+              className="text-4xl md:text-5xl font-bold mb-12 text-center text-foreground"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -395,19 +290,19 @@ export default function HomePage() {
               ].map((member, index) => (
                 <motion.div
                   key={index}
-                  className="p-6 rounded-lg border border-gray-800 hover:border-gray-700 transition-colors"
+                  className="p-6 rounded-lg border border-border hover:border-muted transition-colors bg-card"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   viewport={{ once: true }}
                 >
-                  <h3 className="text-2xl font-bold mb-2">{member.name}</h3>
+                  <h3 className="text-2xl font-bold mb-2 text-foreground">{member.name}</h3>
                   <p className="text-primary mb-4">{member.role}</p>
                   <ul className="space-y-2">
                     {member.achievements.map((achievement, i) => (
                       <li key={i} className="flex items-start gap-3">
                         <ArrowRight className="h-5 w-5 text-primary mt-1" />
-                        <span>{achievement}</span>
+                        <span className="text-muted-foreground">{achievement}</span>
                       </li>
                     ))}
                   </ul>
@@ -418,10 +313,10 @@ export default function HomePage() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 px-4 bg-black-lighter">
+        <section className="py-20 px-4 bg-muted/50">
           <div className="max-w-4xl mx-auto text-center">
             <motion.h2 
-              className="text-4xl md:text-5xl font-bold mb-6"
+              className="text-4xl md:text-5xl font-bold mb-6 text-foreground"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -429,7 +324,7 @@ export default function HomePage() {
               Klar til at komme i gang?
             </motion.h2>
             <motion.p 
-              className="text-xl text-gray-400 mb-8"
+              className="text-xl text-muted-foreground mb-8"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -443,7 +338,7 @@ export default function HomePage() {
               viewport={{ once: true }}
               transition={{ delay: 0.4 }}
             >
-              <Button size="lg" className="bg-white text-black hover:bg-gray-100">
+              <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
                 Book en 30-minutters afklaringssamtale <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </motion.div>
@@ -454,7 +349,7 @@ export default function HomePage() {
         <section className="py-20 px-4">
           <div className="max-w-4xl mx-auto text-center">
             <motion.h2 
-              className="text-4xl md:text-5xl font-bold mb-6"
+              className="text-4xl md:text-5xl font-bold mb-6 text-foreground"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -462,7 +357,7 @@ export default function HomePage() {
               Kontakt
             </motion.h2>
             <motion.div 
-              className="space-y-4 text-gray-400"
+              className="space-y-4 text-muted-foreground"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

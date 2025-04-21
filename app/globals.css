@@ -2,88 +2,123 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "Satoshi";
-  src: url("/fonts/Satoshi-Regular.woff2") format("woff2"),
-       url("/fonts/Satoshi-Regular.woff") format("woff");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Satoshi";
-  src: url("/fonts/Satoshi-Medium.woff2") format("woff2"),
-       url("/fonts/Satoshi-Medium.woff") format("woff");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Satoshi";
-  src: url("/fonts/Satoshi-Bold.woff2") format("woff2"),
-       url("/fonts/Satoshi-Bold.woff") format("woff");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Satoshi";
-  src: url("/fonts/Satoshi-Black.woff2") format("woff2"),
-       url("/fonts/Satoshi-Black.woff") format("woff");
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Satoshi";
-  src: url("/fonts/Satoshi-VariableItalic.woff2") format("woff2"), url("/fonts/Satoshi-VariableItalic.woff")
-    format("woff");
-  font-weight: 300 900;
-  font-style: italic;
-  font-display: swap;
+:root {
+  --mouse-x: 0;
+  --mouse-y: 0;
 }
 
 @layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+  }
+
   * {
     @apply border-border;
   }
   body {
-    @apply bg-black text-white font-satoshi;
+    @apply bg-background text-foreground font-satoshi;
     font-feature-settings: "rlig" 1, "calt" 1;
+    cursor: none;
   }
 }
 
 @layer utilities {
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-500;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-indigo-600;
   }
 
   .hover-lift {
-    @apply transition-all duration-300;
+    @apply transition-all duration-300 relative;
   }
 
   .hover-lift:hover {
     @apply transform -translate-y-1;
   }
+
+  .hover-lift::after {
+    content: '';
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300 rounded-lg;
+    background: radial-gradient(
+      600px circle at var(--mouse-x) var(--mouse-y),
+      rgba(99, 102, 241, 0.1),
+      transparent 40%
+    );
+  }
+
+  .hover-lift:hover::after {
+    @apply opacity-100;
+  }
 }
 
 .grid-bg {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
   background-size: 30px 30px;
   background-position: -19px -19px;
 }
 
+.dark .grid-bg {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+}
+
+.light .grid-bg {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+}
+
 .floating-orb {
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.2), rgba(99, 102, 241, 0.05) 50%);
   filter: blur(40px);
   animation: float 20s infinite ease-in-out;
   opacity: 0.6;
+}
+
+.dark .floating-orb {
+  background: radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.2), rgba(99, 102, 241, 0.05) 50%);
   box-shadow: 0 0 50px rgba(59, 130, 246, 0.1);
+}
+
+.light .floating-orb {
+  background: radial-gradient(circle at 30% 30%, rgba(37, 99, 235, 0.1), rgba(79, 70, 229, 0.02) 50%);
+  box-shadow: 0 0 50px rgba(37, 99, 235, 0.05);
 }
 
 @keyframes float {
@@ -99,4 +134,49 @@
   75% {
     transform: translateY(20px) translateX(10px);
   }
+}
+
+/* Custom cursor styles */
+.cursor-dot,
+.cursor-dot-outline {
+  pointer-events: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  z-index: 9999;
+  mix-blend-mode: difference;
+}
+
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: white;
+}
+
+.cursor-dot-outline {
+  width: 32px;
+  height: 32px;
+  border: 2px solid white;
+}
+
+.cursor-hidden {
+  opacity: 0;
+}
+
+/* Hover effect for interactive elements */
+.hover-lift {
+  cursor: none;
+  transition: transform 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+}
+
+.hover-lift:hover ~ .cursor-dot-outline {
+  transform: translate(-50%, -50%) scale(1.5);
 }

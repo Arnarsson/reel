@@ -1,174 +1,139 @@
-"use client"
+import React from "react"
+import { LessonLayout } from "@/components/lesson-layout"
 
-import { useState, useEffect } from "react"
-import { useParams, useRouter } from "next/navigation"
-import { LessonViewer } from "@/components/dashboard/lesson-viewer"
-import { Button } from "@/components/ui/button"
-import { Progress } from "@/components/ui/progress"
-import { ArrowLeft } from "lucide-react"
-import Link from "next/link"
-
-// Sample lesson data (replace with actual data fetching)
-const lessonData = {
-  id: "1",
-  title: "What is Artificial Intelligence?",
-  type: "video",
-  duration: "10 min",
-  completed: false,
-  content: {
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  },
+// Types (can be moved to shared types file)
+interface LessonData {
+  id: string;
+  title: string;
+  type: "video" | "reading" | "quiz" | "exercise";
+  content: any; // This should be typed more strictly based on lesson type
+  duration: string;
+  completed: boolean;
 }
 
-// Sample course data (replace with actual data fetching)
-const courseData = {
-  id: "1",
-  title: "AI Fundamentals",
-  modules: [
-    {
-      id: "1",
-      title: "Introduction to AI",
-      lessons: [
-        { id: "1", title: "What is Artificial Intelligence?", type: "video", duration: "10 min", completed: false },
-        { id: "2", title: "History of AI Development", type: "reading", duration: "15 min", completed: false },
-        { id: "3", title: "Types of AI Systems", type: "video", duration: "12 min", completed: false },
-        { id: "4", title: "Knowledge Check: AI Fundamentals", type: "quiz", duration: "8 min", completed: false },
-      ],
-    },
-    {
-      id: "2",
-      title: "Machine Learning Basics",
-      lessons: [
-        { id: "5", title: "Supervised vs. Unsupervised Learning", type: "video", duration: "15 min", completed: false },
-        { id: "6", title: "Neural Networks Explained", type: "reading", duration: "20 min", completed: false },
-        { id: "7", title: "Training Models: Best Practices", type: "video", duration: "18 min", completed: false },
-        { id: "8", title: "Your First Machine Learning Model", type: "exercise", duration: "22 min", completed: false },
-      ],
-    },
-  ],
+interface LessonContext extends LessonData {
+  courseId: string;
+  courseTitle: string;
+  moduleTitle: string;
+  lessonIndexInModule: number;
+  lessonsInModuleCount: number;
+  nextLessonId: string | null;
+  previousLessonId: string | null;
 }
 
-export default function LessonPage() {
-  const params = useParams()
-  const router = useRouter()
-  const [currentLesson, setCurrentLesson] = useState(lessonData)
-  const [course, setCourse] = useState(courseData)
-  const [currentLessonIndex, setCurrentLessonIndex] = useState(0)
-  const [currentModuleIndex, setCurrentModuleIndex] = useState(0)
+// Placeholder function to fetch data for a specific lesson and its context
+async function fetchLessonContext(courseId: string, lessonId: string): Promise<LessonContext | null> {
+  console.log(`Fetching context for lesson: ${lessonId} in course: ${courseId}`);
+  await new Promise(resolve => setTimeout(resolve, 200)); // Simulate delay
 
-  // Find the current lesson and module
-  useEffect(() => {
-    const courseId = params.courseId as string
-    const lessonId = params.lessonId as string
-    
-    // In a real app, fetch the course and lesson data from an API
-    // For now, we'll use the sample data
-    
-    // Find the lesson in the course modules
-    let foundLesson = null
-    let foundLessonIndex = -1
-    let foundModuleIndex = -1
-    
-    course.modules.forEach((module, moduleIndex) => {
-      const lessonIndex = module.lessons.findIndex(lesson => lesson.id === lessonId)
-      if (lessonIndex !== -1) {
-        foundLesson = module.lessons[lessonIndex]
-        foundLessonIndex = lessonIndex
-        foundModuleIndex = moduleIndex
+  // --- Replace with actual data fetching --- 
+  // 1. Fetch course structure (e.g., from fetchCourse in the course page, or separate API)
+  // 2. Find the current lesson, its module, and index
+  // 3. Determine next/previous lesson IDs
+  // 4. Fetch actual lesson content (video URL, reading text, quiz questions etc.)
+
+  // Placeholder data structure mimicking finding the lesson
+  const allCourses = {
+    "ai-fundamentals": {
+      id: "ai-fundamentals", title: "AI Fundamentals",
+      modules: [
+        {
+          id: "m1", title: "Introduction to AI", 
+          lessons: [
+            { id: "l1", title: "What is AI?", type: "video" as const, duration: "10 min", completed: false, content: { videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" } },
+            { id: "l2", title: "History of AI", type: "reading" as const, duration: "15 min", completed: false, content: { content: "<p>Reading content goes here...</p>" } },
+            { id: "l3", title: "Types of AI", type: "video" as const, duration: "12 min", completed: false, content: { videoUrl: "https://www.youtube.com/embed/ABCDEFGHIJK" } },
+          ]
+        },
+        {
+          id: "m2", title: "Machine Learning Basics", 
+          lessons: [
+             { id: "l4", title: "Supervised Learning", type: "video" as const, duration: "15 min", completed: true, content: { videoUrl: "https://www.youtube.com/embed/LMNOPQRSTUVW" } },
+             { id: "l5", title: "Neural Networks", type: "reading" as const, duration: "20 min", completed: true, content: { content: "<p>More reading...</p>" } },
+             { id: "l6", title: "Training Models", type: "video" as const, duration: "18 min", completed: false, content: { videoUrl: "https://www.youtube.com/embed/XYZABCDEFGHI" } },
+          ]
+        },
+      ],
+    },
+  };
+
+  const course = allCourses[courseId as keyof typeof allCourses];
+  if (!course) return null;
+
+  let currentLesson: (LessonData & { courseId: string, courseTitle: string, moduleTitle: string }) | null = null;
+  let lessonIndex = -1;
+  let moduleIndex = -1;
+  let prevLessonId: string | null = null;
+  let nextLessonId: string | null = null;
+
+  // Find lesson and its context
+  for (let mIdx = 0; mIdx < course.modules.length; mIdx++) {
+    const module = course.modules[mIdx];
+    const lIdx = module.lessons.findIndex(l => l.id === lessonId);
+    if (lIdx !== -1) {
+      lessonIndex = lIdx;
+      moduleIndex = mIdx;
+      currentLesson = { 
+        ...module.lessons[lIdx],
+        courseId: course.id,
+        courseTitle: course.title,
+        moduleTitle: module.title,
+       }; // Fetch actual content here
+      
+      // Find previous lesson ID
+      if (lIdx > 0) {
+        prevLessonId = module.lessons[lIdx - 1].id;
+      } else if (mIdx > 0) {
+        const prevModule = course.modules[mIdx - 1];
+        prevLessonId = prevModule.lessons[prevModule.lessons.length - 1]?.id || null;
       }
-    })
-    
-    if (foundLesson) {
-      setCurrentLesson({
-        ...foundLesson,
-        content: lessonData.content, // In a real app, fetch the actual content
-      })
-      setCurrentLessonIndex(foundLessonIndex)
-      setCurrentModuleIndex(foundModuleIndex)
-    }
-  }, [params.courseId, params.lessonId])
-
-  const handleComplete = () => {
-    // In a real app, update the lesson completion status in the database
-    setCurrentLesson({
-      ...currentLesson,
-      completed: !currentLesson.completed,
-    })
-  }
-
-  const handleNext = () => {
-    const currentModule = course.modules[currentModuleIndex]
-    
-    // If there are more lessons in the current module
-    if (currentLessonIndex < currentModule.lessons.length - 1) {
-      const nextLesson = currentModule.lessons[currentLessonIndex + 1]
-      router.push(`/courses/${params.courseId}/lessons/${nextLesson.id}`)
-    } 
-    // If there are more modules
-    else if (currentModuleIndex < course.modules.length - 1) {
-      const nextModule = course.modules[currentModuleIndex + 1]
-      const nextLesson = nextModule.lessons[0]
-      router.push(`/courses/${params.courseId}/lessons/${nextLesson.id}`)
-    }
-    // If we're at the end of the course
-    else {
-      router.push(`/courses/${params.courseId}`)
+      
+      // Find next lesson ID
+      if (lIdx < module.lessons.length - 1) {
+        nextLessonId = module.lessons[lIdx + 1].id;
+      } else if (mIdx < course.modules.length - 1) {
+        nextLessonId = course.modules[mIdx + 1].lessons[0]?.id || null;
+      }
+      break; // Found the lesson
     }
   }
 
-  const handlePrevious = () => {
-    // If there are previous lessons in the current module
-    if (currentLessonIndex > 0) {
-      const prevLesson = course.modules[currentModuleIndex].lessons[currentLessonIndex - 1]
-      router.push(`/courses/${params.courseId}/lessons/${prevLesson.id}`)
-    } 
-    // If there are previous modules
-    else if (currentModuleIndex > 0) {
-      const prevModule = course.modules[currentModuleIndex - 1]
-      const prevLesson = prevModule.lessons[prevModule.lessons.length - 1]
-      router.push(`/courses/${params.courseId}/lessons/${prevLesson.id}`)
-    }
-    // If we're at the beginning of the course
-    else {
-      router.push(`/courses/${params.courseId}`)
-    }
+  if (!currentLesson) {
+    console.warn(`Lesson ${lessonId} in course ${courseId} not found.`);
+    return null;
   }
 
+  return {
+    ...currentLesson,
+    lessonIndexInModule: lessonIndex,
+    lessonsInModuleCount: course.modules[moduleIndex].lessons.length,
+    previousLessonId: prevLessonId,
+    nextLessonId: nextLessonId,
+  };
+  // --- End of placeholder fetching logic ---
+}
+
+// Page component receives params from the route
+export default async function LessonPage({ params }: { params: { courseId: string; lessonId: string } }) {
+  const lessonContext = await fetchLessonContext(params.courseId, params.lessonId);
+
+  if (!lessonContext) {
+    // Handle lesson not found - maybe redirect or show a specific message
+    // For now, render basic message
+    return <div className="container mx-auto py-8 text-center">Lesson not found.</div>;
+  }
+
+  // Render the client layout component, passing fetched data
   return (
-    <div className="container mx-auto py-8">
-      {/* Back to Course Button */}
-      <div className="mb-6">
-        <Button variant="ghost" asChild>
-          <Link href={`/courses/${params.courseId}`}>
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Course
-          </Link>
-        </Button>
-      </div>
-
-      {/* Course Progress */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-sm text-muted-foreground">
-            {course.modules[currentModuleIndex].title} - Lesson {currentLessonIndex + 1} of {course.modules[currentModuleIndex].lessons.length}
-          </span>
-          <span className="text-sm font-medium">
-            {Math.round((currentLessonIndex / course.modules[currentModuleIndex].lessons.length) * 100)}%
-          </span>
-        </div>
-        <Progress 
-          value={(currentLessonIndex / course.modules[currentModuleIndex].lessons.length) * 100} 
-          className="h-2" 
-        />
-      </div>
-
-      {/* Lesson Viewer */}
-      <LessonViewer
-        lesson={currentLesson}
-        onComplete={handleComplete}
-        onNext={handleNext}
-        onPrevious={handlePrevious}
-      />
-    </div>
-  )
+    <LessonLayout
+      lesson={lessonContext} // Contains id, title, type, content, etc.
+      courseId={lessonContext.courseId}
+      courseTitle={lessonContext.courseTitle}
+      moduleTitle={lessonContext.moduleTitle}
+      lessonIndexInModule={lessonContext.lessonIndexInModule}
+      lessonsInModuleCount={lessonContext.lessonsInModuleCount}
+      nextLessonId={lessonContext.nextLessonId}
+      previousLessonId={lessonContext.previousLessonId}
+    />
+  );
 } 

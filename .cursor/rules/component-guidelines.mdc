@@ -1,0 +1,70 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Component Development Guidelines
+
+## Component Structure
+- Use the "use client" directive for client-side components
+- Keep components focused and single-responsibility
+- Extract reusable UI elements into the `components/ui` directory
+- Place page-specific components in their respective page directories
+
+## Theme Compatibility
+Components must be theme-aware and use the theme system correctly:
+1. Use [components/theme-provider.tsx](mdc:components/theme-provider.tsx) at the app root
+2. Use theme-aware color variables from `globals.css`
+3. Test components in both light and dark modes
+
+## State Management
+- Use React hooks appropriately (`useState`, `useEffect`, etc.)
+- Avoid prop drilling - consider context where appropriate
+- The theme state is managed by `next-themes` - use the `useTheme` hook
+
+## Styling Best Practices
+```tsx
+// ✅ Good Practice
+export function MyComponent() {
+  const { theme } = useTheme()
+  return (
+    <div className="bg-background text-foreground">
+      <h1 className="text-2xl font-bold">Title</h1>
+      <p className="text-muted-foreground">Content</p>
+    </div>
+  )
+}
+
+// ❌ Bad Practice
+export function MyComponent() {
+  return (
+    <div className="bg-white dark:bg-black text-black dark:text-white">
+      <h1 className="text-2xl font-bold">Title</h1>
+      <p className="text-gray-600 dark:text-gray-400">Content</p>
+    </div>
+  )
+}
+```
+
+## Animation and Transitions
+- Use Framer Motion for complex animations
+- Disable theme transition animations for better performance
+- Test animations in both theme modes
+
+## Accessibility
+- Ensure proper color contrast in both themes
+- Use semantic HTML elements
+- Include proper ARIA labels
+- Test keyboard navigation
+
+## Performance
+- Implement proper code-splitting
+- Use `React.memo` for expensive renders
+- Avoid unnecessary re-renders
+- Test performance in both theme modes
+
+## Testing
+- Test components in both light and dark themes
+- Verify theme transitions work correctly
+- Check for any hardcoded colors
+- Ensure consistent appearance across themes

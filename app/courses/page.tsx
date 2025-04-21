@@ -1,17 +1,31 @@
-"use client"
-
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 
-export default function CoursesPage() {
-  // TODO: Fetch and display actual course list
-  const courses = [
-    { id: "1", title: "AI Fundamentals" },
-    { id: "2", title: "Machine Learning Basics" },
-    { id: "3", title: "Data Science Essentials" },
-    { id: "4", title: "Python for AI" },
-    { id: "5", title: "Deep Learning" },
-  ]
+// Placeholder type for course data
+interface Course {
+  id: string;
+  title: string;
+  // Add other fields like description, image, etc.
+}
+
+// Placeholder function to fetch course list
+async function fetchCourses(): Promise<Course[]> {
+  // Replace with actual API call or database query
+  console.log("Fetching course list...");
+  await new Promise(resolve => setTimeout(resolve, 300)); // Simulate delay
+  return [
+    { id: "ai-fundamentals", title: "AI Fundamentals" },
+    { id: "ml-basics", title: "Machine Learning Basics" },
+    { id: "data-science", title: "Data Science Essentials" },
+    { id: "python-ai", title: "Python for AI" },
+    { id: "deep-learning", title: "Deep Learning" },
+  ];
+}
+
+// Make component async
+export default async function CoursesPage() {
+  const courses = await fetchCourses();
 
   return (
     <div className="container mx-auto py-8">
@@ -19,17 +33,22 @@ export default function CoursesPage() {
       <p className="text-muted-foreground mb-8">Browse and access all your enrolled courses.</p>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {courses.map((course) => (
-          <div key={course.id} className="border border-border rounded-lg p-6 bg-card hover:shadow-lg transition-shadow">
-            <h2 className="text-xl font-semibold mb-2">{course.title}</h2>
-            {/* Add more course details here later */}
-            <Button asChild variant="outline" className="mt-4">
-              <Link href={`/courses/${course.id}`}>Go to Course</Link>
-            </Button>
-          </div>
-        ))}
+        {courses.length > 0 ? (
+          courses.map((course) => (
+            <Link href={`/courses/${course.id}`} key={course.id}>
+              <Card className="hover-lift h-full">
+                <CardHeader>
+                  <CardTitle>{course.title}</CardTitle>
+                  <CardDescription>{course.description}</CardDescription>
+                </CardHeader>
+              </Card>
+            </Link>
+          ))
+        ) : (
+          <p className="text-muted-foreground col-span-full">No courses found.</p>
+        )}
       </div>
       {/* We can add filtering/sorting options here later */}
     </div>
-  )
+  );
 } 
