@@ -12,7 +12,7 @@ export function Header() {
   const mobileMenuId = "mobile-menu"
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-gray-800">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex items-center h-16">
           <div className="flex-1 basis-0">
@@ -65,7 +65,7 @@ export function Header() {
         </div>
 
         {isMenuOpen && (
-          <div id={mobileMenuId} className="md:hidden py-4 border-t border-gray-800">
+          <div id={mobileMenuId} className="md:hidden py-4 border-t border-border">
             <nav className="flex flex-col space-y-4">
               <Link href="#method" className="text-gray-400 hover:text-white transition-colors">
                 Vores metode

@@ -12,12 +12,8 @@ const isPublicRoute = createRouteMatcher([
 // By default, if it's not public, it's protected.
 // You could create an isProtectedRoute matcher if needed for more complex rules.
 
-export default clerkMiddleware((auth, req) => {
-  // Protect routes that are not public
-  if (!isPublicRoute(req)) {
-    auth().protect();
-  }
-});
+// The middleware automatically protects routes that are not matched by isPublicRoute
+export default clerkMiddleware();
 
 export const config = {
   matcher: [

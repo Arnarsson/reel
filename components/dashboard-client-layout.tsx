@@ -204,7 +204,7 @@ export function DashboardClientLayout({
                 <div className="space-y-4">
                   {modules.length > 0 ? (
                     modules.map((module) => (
-                      <Card key={module.id} className="hover-lift">
+                      <Card key={module.id ?? module.title} className="hover-lift">
                         <CardHeader>
                           <CardTitle>{module.title}</CardTitle>
                           <CardDescription>{module.description}</CardDescription>
@@ -212,7 +212,7 @@ export function DashboardClientLayout({
                         <CardContent>
                           <div className="space-y-2">
                             {module.lessons.map((lesson) => (
-                              <div key={lesson.id} className="flex items-center justify-between">
+                              <div key={lesson.id ?? lesson.title} className="flex items-center justify-between">
                                 <span className="text-sm">{lesson.title}</span>
                                 {lesson.status === 'completed' ? (
                                   <CheckCircle className="h-5 w-5 text-green-500" />
@@ -289,35 +289,18 @@ export function DashboardClientLayout({
               </CardHeader>
               <CardContent>
                  {/* TODO: Fetch real bookmarks */}
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                  <Card className="hover-lift">
+                 {/* NOTE: Example only - Replace with actual data and loop */}
+                 {[{id: 'react', title: 'React Fundamentals', desc: 'Core concepts and hooks'}, {id:'next', title:'Next.js App Router', desc:'Server and Client Components'}, {id:'tw', title:'Tailwind CSS Guide', desc:'Utility-first CSS framework'}].map((bookmark) => (
+                  <Card key={bookmark.id} className="hover-lift">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0">
-                      <CardTitle className="text-sm font-medium">React Fundamentals</CardTitle>
+                      <CardTitle className="text-sm font-medium">{bookmark.title}</CardTitle>
                       <Bookmark className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                      <p className="text-xs text-muted-foreground">Core concepts and hooks</p>
+                      <p className="text-xs text-muted-foreground">{bookmark.desc}</p>
                     </CardContent>
                   </Card>
-                  <Card className="hover-lift">
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0">
-                      <CardTitle className="text-sm font-medium">Next.js App Router</CardTitle>
-                      <Bookmark className="h-4 w-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-xs text-muted-foreground">Server and Client Components</p>
-                    </CardContent>
-                  </Card>
-                  <Card className="hover-lift">
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0">
-                      <CardTitle className="text-sm font-medium">Tailwind CSS Guide</CardTitle>
-                      <Bookmark className="h-4 w-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-xs text-muted-foreground">Utility-first CSS framework</p>
-                    </CardContent>
-                  </Card>
-                </div>
+                 ))}
               </CardContent>
             </Card>
           </div>
