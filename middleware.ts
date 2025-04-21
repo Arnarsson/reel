@@ -1,26 +1,21 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+import createMiddleware from 'next-intl/middleware';
+import { routing } from './i18n/routing';
 
-// Define routes that should be public (accessible without logging in)
-const isPublicRoute = createRouteMatcher([
-  '/', 
-  '/sign-in(.*)', 
-  '/sign-up(.*)',
-  // Add any other public routes here, like API endpoints or marketing pages
-]);
+export default createMiddleware(routing);
 
-// Define routes that should be protected (require login)
-// By default, if it's not public, it's protected.
-// You could create an isProtectedRoute matcher if needed for more complex rules.
-
-// The middleware automatically protects routes that are not matched by isPublicRoute
-export default clerkMiddleware();
-
+// Match all pathnames except for
+// - /api routes
+// - /_next (Next.js internals)
+// - /_vercel (Vercel internals)
+// - All files in the public folder
 export const config = {
+  // Matcher entries are linked with a logical "or"
   matcher: [
-    // Skip Next.js internal paths (e.g., /_next/)
-    '/((?!_next).*)',
-    // Match all routes, api routes included
-    '/',
-    '/(api|trpc)(.*)',
-  ],
+    // Match all pathnames except for
+    // - /api routes
+    // - /_next (Next.js internals)
+    // - /_vercel (Vercel internals)
+    // - All files in the public folder
+    '/((?!api|_next|_vercel|.*\\..*).*)'
+  ]
 }; 

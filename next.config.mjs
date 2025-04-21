@@ -1,3 +1,5 @@
+import createNextIntlPlugin from 'next-intl/plugin';
+
 let userConfig = undefined
 try {
   // try to import ESM first
@@ -48,4 +50,11 @@ if (userConfig) {
   }
 }
 
-export default nextConfig
+// Initialize the plugin, pointing to your i18n config file
+const withNextIntl = createNextIntlPlugin(
+  // This is the default location for the config file
+  './i18n.ts' 
+);
+
+// Wrap the existing config with the next-intl plugin
+export default withNextIntl(nextConfig);
