@@ -15,42 +15,42 @@ import { ClerkProvider } from '@clerk/nextjs'
 const fontSatoshi = localFont({
   src: [
     {
-      path: 'app/fonts/Satoshi-Regular.woff2',
+      path: 'fonts/Satoshi-Regular.woff2',
       weight: '400',
       style: 'normal',
     },
     {
-      path: 'app/fonts/Satoshi-Italic.woff2',
+      path: 'fonts/Satoshi-Italic.woff2',
       weight: '400',
       style: 'italic',
     },
     {
-      path: 'app/fonts/Satoshi-Medium.woff2',
+      path: 'fonts/Satoshi-Medium.woff2',
       weight: '500',
       style: 'normal',
     },
     {
-      path: 'app/fonts/Satoshi-MediumItalic.woff2',
+      path: 'fonts/Satoshi-MediumItalic.woff2',
       weight: '500',
       style: 'italic',
     },
     {
-      path: 'app/fonts/Satoshi-Bold.woff2',
+      path: 'fonts/Satoshi-Bold.woff2',
       weight: '700',
       style: 'normal',
     },
     {
-      path: 'app/fonts/Satoshi-BoldItalic.woff2',
+      path: 'fonts/Satoshi-BoldItalic.woff2',
       weight: '700',
       style: 'italic',
     },
     {
-      path: 'app/fonts/Satoshi-Black.woff2',
+      path: 'fonts/Satoshi-Black.woff2',
       weight: '900',
       style: 'normal',
     },
     {
-      path: 'app/fonts/Satoshi-BlackItalic.woff2',
+      path: 'fonts/Satoshi-BlackItalic.woff2',
       weight: '900',
       style: 'italic',
     },
