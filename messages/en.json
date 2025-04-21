@@ -63,5 +63,17 @@
     "contactEmail": "info@harka.ai",
     "contactPhone": "+45 29 12 83 81",
     "contactAddress": "Danneskiold-Samsøes Allé 41, 1434 Copenhagen"
+  },
+  "Navigation": {
+    "method": "Our Method",
+    "results": "Results",
+    "team": "Team",
+    "contact": "Contact",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "profile": "Profile",
+    "toggleTheme": "Toggle Theme",
+    "openMenu": "Open Menu",
+    "closeMenu": "Close Menu"
   }
 } 

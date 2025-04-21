@@ -1,0 +1,51 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Project Development Roadmap
+
+This document outlines the planned phases for developing the AI Workshop application.
+
+**Phase 1: Landing Page Enhancement & Internationalization**
+
+*   [ ] Implement Danish Content Updates in [app/page.tsx](mdc:app/page.tsx):
+    *   [x] Update Hero section (headline/sub-headline).
+    *   [x] Add "Er det her for jer?" section.
+    *   [ ] Add placeholders for other CTAs and testimonials.
+*   [ ] Implement Internationalization (i18n) using `next-intl`:
+    *   [x] Install `next-intl`.
+    *   [ ] Configure middleware/routing for `/da` & `/en`.
+    *   [ ] Extract landing page text into locale files (e.g., `messages/da.json`, `messages/en.json`).
+    *   [ ] Implement a language selector component (e.g., in [components/header.tsx](mdc:components/header.tsx)).
+    *   [ ] Translate Danish content to English.
+*   [ ] Verify Landing Page (both languages).
+
+**Phase 2: Solidify Supabase Setup & Security**
+
+*   [x] Fetch Course Data: Display courses on [app/courses/page.tsx](mdc:app/courses/page.tsx).
+*   [x] Basic Admin Role Check: Via `users` table & Clerk ID ([lib/authUtils.ts](mdc:lib/authUtils.ts)).
+*   [x] Protected Admin Dashboard: Create [app/admin/dashboard/page.tsx](mdc:app/admin/dashboard/page.tsx).
+*   [ ] Implement RLS Policies:
+    *   [x] Apply `courses` policies *(SQL provided)*.
+    *   [ ] Define & apply `users` table policies. **<- Security Critical**
+    *   [ ] Define & apply policies for other tables (`lessons`, `modules`, `user_progress`, etc.). **<- Security Critical**
+
+**Phase 3: Admin Course Management**
+
+*   [ ] Create Course Upload Page: [app/admin/courses/new/page.tsx](mdc:app/admin/courses/new/page.tsx) (admin-protected).
+*   [ ] Build Course Upload Form (client component).
+*   [ ] Implement Video Upload Logic:
+    *   [ ] Set up Supabase Storage bucket.
+    *   [ ] Create Server Action/API route for upload & DB insert.
+*   [ ] (Optional) Implement Course Editing/Deletion.
+
+**Phase 4: User Profile Syncing**
+
+*   [ ] Sync Clerk Data to Supabase `users` table (name, avatar, email).
+
+**Phase 5: Stripe Integration**
+
+*   [ ] Setup: Install libs, add API keys, create Stripe products.
+*   [ ] Implement Checkout Flow (backend endpoint, frontend button).
+*   [ ] Implement Webhook Handling (endpoint, Stripe config, event logic).

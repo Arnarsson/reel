@@ -1,0 +1,88 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# I18n Implementation Guide
+
+## Required Files Structure
+```
+├── app/
+│   ├── [locale]/
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+├── i18n/
+│   └── routing.ts
+├── messages/
+│   ├── en.json
+│   └── da.json
+├── middleware.ts
+└── next-intl.config.ts
+```
+
+## Configuration Checklist
+
+### 1. Base Configuration
+- [next-intl.config.ts](mdc:next-intl.config.ts):
+  ```typescript
+  export const locales = ['en', 'da']
+  export const defaultLocale = 'en'
+  export const localePrefix = 'as-needed'
+  ```
+
+### 2. Routing Setup
+- [i18n/routing.ts](mdc:i18n/routing.ts):
+  ```typescript
+  import { defineRouting } from 'next-intl/routing'
+  import { locales, defaultLocale, localePrefix } from '../next-intl.config'
+  
+  export const routing = defineRouting({
+    locales,
+    defaultLocale,
+    localePrefix
+  })
+  ```
+
+### 3. Middleware Configuration
+- [middleware.ts](mdc:middleware.ts):
+  ```typescript
+  import createMiddleware from 'next-intl/middleware'
+  import { routing } from './i18n/routing'
+  
+  export default createMiddleware(routing)
+  
+  export const config = {
+    matcher: ['/((?!api|_next|_vercel|.*\\..*).*']
+  }
+  ```
+
+## Message Format Rules
+1. Use named tags for rich text:
+   ```json
+   {
+     "key": "Text with <tag>highlighted</tag> content"
+   }
+   ```
+
+2. Component usage:
+   ```typescript
+   t.rich('key', {
+     tag: (chunks) => <span className="highlight">{chunks}</span>
+   })
+   ```
+
+## Common Pitfalls
+1. Avoid numbered tags (<0>, <1>) in messages
+2. Always use named components in rich text
+3. Check locale prefix configuration matches routing needs
+4. Verify middleware matcher patterns
+5. Ensure all routes are locale-aware
+
+## Testing Requirements
+1. Test default locale routing
+2. Test non-default locale routing
+3. Verify locale switching
+4. Check rich text rendering
+5. Validate dynamic routes with locales
+
+Remember: Always check browser logs and latest documentation when implementing i18n features.

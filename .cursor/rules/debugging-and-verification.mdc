@@ -1,0 +1,85 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Debugging and Verification Protocol
+
+## 1. Immediate Error Detection
+Always follow this sequence when investigating issues:
+
+1. Check Browser Console Errors:
+   ```typescript
+   mcp_Browser-tools_getConsoleErrors()
+   ```
+
+2. Check Network Errors:
+   ```typescript
+   mcp_Browser-tools_getNetworkErrors()
+   ```
+
+3. Check General Console Logs:
+   ```typescript
+   mcp_Browser-tools_getConsoleLogs()
+   ```
+
+## 2. Documentation Verification
+If errors are found, immediately verify against latest documentation:
+
+1. Resolve library ID:
+   ```typescript
+   mcp_context7_resolve-library-id({
+     libraryName: "relevant-package"
+   })
+   ```
+
+2. Get latest docs:
+   ```typescript
+   mcp_context7_get-library-docs({
+     context7CompatibleLibraryID: "resolved-id",
+     topic: "relevant-topic"
+   })
+   ```
+
+## 3. Double-Check Protocol
+Before implementing any changes:
+
+1. Configuration Files:
+   - [next-intl.config.ts](mdc:next-intl.config.ts)
+   - [middleware.ts](mdc:middleware.ts)
+   - [next.config.mjs](mdc:next.config.mjs)
+
+2. Implementation Files:
+   - [i18n/routing.ts](mdc:i18n/routing.ts)
+   - [i18n.ts](mdc:i18n.ts)
+
+3. Message Files:
+   - [messages/en.json](mdc:messages/en.json)
+   - [messages/da.json](mdc:messages/da.json)
+
+## 4. Verification Checklist
+✓ Browser console is error-free
+✓ Network requests are successful
+✓ Configuration matches latest docs
+✓ All required files are present
+✓ All imports are correct
+✓ All exports are properly defined
+✓ Middleware is properly configured
+✓ Message formatting is correct
+✓ Routes are properly set up
+
+## 5. Common Issues to Watch
+1. Message formatting in translation files
+2. Middleware configuration
+3. Route handling with locales
+4. Component imports and exports
+5. Configuration consistency across files
+
+## 6. Testing Steps
+1. Check each locale route
+2. Verify translations load
+3. Confirm language switching
+4. Test dynamic routes
+5. Validate error handling
+
+Remember: Always verify against current documentation before implementing changes. This prevents rework and saves development time.
