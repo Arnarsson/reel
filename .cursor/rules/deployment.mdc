@@ -1,0 +1,16 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Deployment Process
+
+Changes are regularly pushed to the `main` branch of the GitHub repository.
+
+Production deployments to Vercel are triggered manually from the command line using:
+
+```bash
+vercel --prod
+```
+
+This command builds and deploys the current state of the `main` branch.

@@ -4,7 +4,6 @@ import localFont from 'next/font/local'
 import "./globals.css"
 // import "./satoshi.css" // Remove direct CSS import
 import "./cursor-styles.css"
-import "./cursor-animations.css"
 
 import { Providers } from "@/components/providers"
 import { Header } from "@/components/header"

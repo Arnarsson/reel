@@ -1,0 +1,12 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Local Font Configuration
+
+This project uses the Satoshi font locally.
+
+- The font files (`.woff2`) are stored in the [app/fonts/](mdc:app/fonts) directory.
+- These fonts are loaded and configured using `next/font/local` within the main layout file: [app/layout.tsx](mdc:app/layout.tsx).
+- The paths specified in the `localFont` configuration within `app/layout.tsx` are relative to the `app` directory (e.g., `fonts/Satoshi-Regular.woff2`).
